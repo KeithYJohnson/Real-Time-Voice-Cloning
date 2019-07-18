@@ -176,12 +176,13 @@ if __name__ == '__main__':
             librosa.output.write_wav(fpath, generated_wav.astype(np.float32),
                                      synthesizer.sample_rate)
             outfile = TemporaryFile()
-            np.save(outfile, embed)
+            embeddings_filename = str(in_fpath) + "_embeddings"
+            np.save(embeddings_filename, embed)
             num_generated += 1
             s3 = boto3.resource('s3')
             s3.Bucket("deepfakedingoes").upload_file(fpath,fpath)
             print('uploading embeddings for: ', in_fpath)
-            s3.Bucket("deepfakedingoes").upload_file(outfile,str(in_fpath) + "_embeddings")
+            s3.Bucket("deepfakedingoes").upload_file(outfile, embeddings_filename)
             print("\nSaved output as %s\n\n" % fpath)
 
 
