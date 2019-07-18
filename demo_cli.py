@@ -176,7 +176,7 @@ if __name__ == '__main__':
             librosa.output.write_wav(fpath, generated_wav.astype(np.float32),
                                      synthesizer.sample_rate)
             outfile = TemporaryFile()
-            embeddings_filename = str(in_fpath) + "_embeddings"
+            embeddings_filename = str(in_fpath) + "_embeddings.npy"
             np.save(embeddings_filename, embed)
             num_generated += 1
             s3 = boto3.resource('s3')
