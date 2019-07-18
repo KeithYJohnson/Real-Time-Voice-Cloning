@@ -2,7 +2,7 @@ import flask
 
 from celebrity_text_request_handler.celebrity_text_request_handler import CelebrityTextRequestHandler
 
-requestHandler = CelebrityTextRequestHandler()
+requestHandler = CelebrityTextRequestHandler("","","")
 app = flask.Flask(__name__)
 
 @app.route('/')

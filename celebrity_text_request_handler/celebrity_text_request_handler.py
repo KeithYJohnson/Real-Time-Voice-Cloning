@@ -2,14 +2,14 @@ from synthesizer.inference import Synthesizer
 from vocoder import inference as vocoder
 
 
-class CelebrityTextRequestHandler(object):
+class CelebrityTextRequestHandler(object, syn_model_dir, low_mem, voc_model_fpath):
     def __init__(self):
         self.celebrity_map = {}
 
         ## Load the models one by one.
         print("Preparing the encoder, the synthesizer and the vocoder...")
-        self.synthesizer = Synthesizer(args.syn_model_dir.joinpath("taco_pretrained"), low_mem=args.low_mem)
-        self.vocoder.load_model(args.voc_model_fpath)
+        self.synthesizer = Synthesizer(syn_model_dir.joinpath("taco_pretrained"), low_mem=low_mem)
+        self.vocoder.load_model(voc_model_fpath)
 
     def get_embedding_from_celebrity(self, celebrity):
         if celebrity in celebrity_map:
