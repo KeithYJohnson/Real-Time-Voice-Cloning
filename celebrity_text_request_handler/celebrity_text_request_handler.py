@@ -16,13 +16,11 @@ class CelebrityTextRequestHandler(object):
         inference.load_model(Path(voc_model_fpath))
 
         self.load_all_embeddings(pre_trained_embeddings)
-        st()
 
     def load_all_embeddings(self, pre_trained_embeddings):
         files = os.listdir(pre_trained_embeddings)
-        st()
         for file_name in files:
-            file_name_sanitized = file_name.split()[0]
+            file_name_sanitized = file_name.split(".")[0]
             embedding = np.load(os.path.join(pre_trained_embeddings, file_name))
             self.celebrity_map[file_name_sanitized] = embedding
 
