@@ -31,8 +31,7 @@ class CelebrityTextRequestHandler(object):
         # The synthesizer works in batch, so you need to put your data in a list or numpy array
         texts = [text]
         embed = self.get_embedding_from_celebrity(celebrity)
-        print(embed)
-        if embed is not None:
+        if embed is None:
             raise ValueError('Celebrity {} not found in mapping!'.format(celebrity))
         embeds = [embed]
         # If you know what the attention layer alignments are, you can retrieve them here by
