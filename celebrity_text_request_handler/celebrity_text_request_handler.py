@@ -1,15 +1,16 @@
+from pathlib import Path
 from synthesizer.inference import Synthesizer
 from vocoder import inference as vocoder
 
 
 class CelebrityTextRequestHandler(object):
-    def __init__(self, syn_model_dir, low_mem, voc_model_fpath):
+    def __init__(self, syn_model_dir="synthesizer/saved_models/logs-pretrained/", low_mem=False, voc_model_fpath="vocoder/saved_models/pretrained/pretrained.pt"):
         self.celebrity_map = {}
 
         ## Load the models one by one.
-        print("Preparing the encoder, the synthesizer and the vocoder...")
-        self.synthesizer = Synthesizer(syn_model_dir.joinpath("taco_pretrained"), low_mem=low_mem)
-        self.vocoder.load_model(voc_model_fpath)
+        print("Preparing the synthesizer and the vocoder")
+        self.synthesizer = Synthesizer(Path(syn_model_dir).joinpath("taco_pretrained"), low_mem=low_mem)
+        self.vocoder.load_model(Path(voc_model_fpath))
 
     def get_embedding_from_celebrity(self, celebrity):
         if celebrity in celebrity_map:

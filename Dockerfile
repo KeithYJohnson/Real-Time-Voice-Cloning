@@ -1,3 +1,9 @@
+# build command:
+# >> docker build -t voice-base .
+#
+# run command:
+# >> docker run -it --rm --init --runtime=nvidia --ipc=host --volume="$PWD:/workspace" -e NVIDIA_VISIBLE_DEVICES=0 -p 80:80  voice-base
+
 FROM pytorch/pytorch
 
 WORKDIR "/workspace"
