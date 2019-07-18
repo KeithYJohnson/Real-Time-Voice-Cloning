@@ -2,8 +2,8 @@ from synthesizer.inference import Synthesizer
 from vocoder import inference as vocoder
 
 
-class CelebrityTextRequestHandler(object, syn_model_dir, low_mem, voc_model_fpath):
-    def __init__(self):
+class CelebrityTextRequestHandler(object):
+    def __init__(self, syn_model_dir, low_mem, voc_model_fpath):
         self.celebrity_map = {}
 
         ## Load the models one by one.
