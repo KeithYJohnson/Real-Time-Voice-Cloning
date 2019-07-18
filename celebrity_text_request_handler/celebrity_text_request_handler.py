@@ -13,8 +13,8 @@ class CelebrityTextRequestHandler(object):
         inference.load_model(Path(voc_model_fpath))
 
     def get_embedding_from_celebrity(self, celebrity):
-        if celebrity in celebrity_map:
-            return celebrity_map[celebrity]
+        if celebrity in self.celebrity_map:
+            return self.celebrity_map[celebrity]
 
     def call_synth_and_vocoder(self, text, celebrity):
         # The synthesizer works in batch, so you need to put your data in a list or numpy array
