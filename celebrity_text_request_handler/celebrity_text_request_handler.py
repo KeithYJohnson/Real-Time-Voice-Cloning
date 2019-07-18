@@ -40,5 +40,5 @@ class CelebrityTextRequestHandler(object):
 
     def handle(self, text, celebrity):
         print("handle text: {}, celebrity: {}".format(text, celebrity))
-        generated_wav = self.call_synth_and_vocoder()
+        generated_wav = self.call_synth_and_vocoder(text, celebrity)
         self.upload_to_s3(generated_wav)
