@@ -21,7 +21,7 @@ class CelebrityTextRequestHandler(object):
         for file_name in files:
             file_name_sanitized = file_name.split()[0]
             embedding = np.load(os.path.join(pre_trained_embeddings, file_name))
-            celebrity_map[file_name_sanitized] = embedding
+            self.celebrity_map[file_name_sanitized] = embedding
 
     def get_embedding_from_celebrity(self, celebrity):
         if celebrity in self.celebrity_map:
