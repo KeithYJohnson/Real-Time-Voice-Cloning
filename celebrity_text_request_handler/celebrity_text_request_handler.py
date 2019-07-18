@@ -31,6 +31,7 @@ class CelebrityTextRequestHandler(object):
         # The synthesizer works in batch, so you need to put your data in a list or numpy array
         texts = [text]
         embed = self.get_embedding_from_celebrity(celebrity)
+        print(embed)
         if embed is not None:
             raise ValueError('Celebrity {} not found in mapping!'.format(celebrity))
         embeds = [embed]
@@ -50,6 +51,6 @@ class CelebrityTextRequestHandler(object):
         pass
 
     def handle(self, text, celebrity):
-        print("handle text: {}, celebrity: {}".format(text, celebrity))
+        print("handle text: \"{}\", celebrity: \"{}\"".format(text, celebrity))
         generated_wav = self.call_synth_and_vocoder(text, celebrity)
         self.upload_to_s3(generated_wav)
