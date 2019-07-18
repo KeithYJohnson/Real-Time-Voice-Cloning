@@ -1,16 +1,16 @@
 from pathlib import Path
 from synthesizer.inference import Synthesizer
-from vocoder import inference as vocoder
+from vocoder import inference
 
 
 class CelebrityTextRequestHandler(object):
+
     def __init__(self, syn_model_dir="synthesizer/saved_models/logs-pretrained/", low_mem=False, voc_model_fpath="vocoder/saved_models/pretrained/pretrained.pt"):
         self.celebrity_map = {}
-
         ## Load the models one by one.
         print("Preparing the synthesizer and the vocoder")
         self.synthesizer = Synthesizer(Path(syn_model_dir).joinpath("taco_pretrained"), low_mem=low_mem)
-        self.vocoder.load_model(Path(voc_model_fpath))
+        inference.load_model(Path(voc_model_fpath))
 
     def get_embedding_from_celebrity(self, celebrity):
         if celebrity in celebrity_map:
@@ -33,7 +33,7 @@ class CelebrityTextRequestHandler(object):
         print("Synthesizing the waveform:")
         # Synthesizing the waveform is fairly straightforward. Remember that the longer the
         # spectrogram, the more time-efficient the vocoder.
-        return self.vocoder.infer_waveform(spec)
+        return inference.infer_waveform(spec)
 
     def upload_to_s3(generated_wav):
         pass
