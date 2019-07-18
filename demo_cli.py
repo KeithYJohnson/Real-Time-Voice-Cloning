@@ -12,6 +12,7 @@ import torch
 import sys
 from tempfile import TemporaryFile
 import numpy as np
+import boto3
 
 
 if __name__ == '__main__':
