@@ -1,9 +1,9 @@
 import flask
 
-from vocoder_caller.vocoder_caller import VocoderCaller
+from celebrity_text_request_handler.celebrity_text_request_handler import CelebrityTextRequestHandler
 
 
-vocoderCaller = VocoderCaller()
+requestHandler = CelebrityTextRequestHandler()
 app = flask.Flask(__name__)
 
 @app.route('/')
@@ -14,5 +14,9 @@ def root_route():
 def convert_text_to_celebrity_speech():
     text = flask.request.args.get('text')
     celebrity = flask.request.args.get('celebrity')
-    vocoderCaller.call_vocoder(text)
+    try:
+    	requestHandler.handle(text, celebrity)
+    except ValueError as e:
+        print(e)
+		return "ERROR"
     return 'You sent text: {} celebrity: {}'.format(text, celebrity)
