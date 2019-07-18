@@ -181,7 +181,7 @@ if __name__ == '__main__':
             s3 = boto3.resource('s3')
             s3.Bucket("deepfakedingoes").upload_file(fpath,fpath)
             print('uploading embeddings for: ', in_fpath)
-            s3.Bucket("deepfakedingoes").upload_file(outfile,in_fpath + "_embeddings")
+            s3.Bucket("deepfakedingoes").upload_file(outfile,str(in_fpath) + "_embeddings")
             print("\nSaved output as %s\n\n" % fpath)
 
 
