@@ -180,8 +180,9 @@ if __name__ == '__main__':
             np.save(embeddings_filename, embed)
             num_generated += 1
             s3 = boto3.resource('s3')
+            print('uploading uploading synthezized wave file for: ', fpath)
             s3.Bucket("deepfakedingoes").upload_file(fpath,fpath)
-            print('uploading embeddings for: ', in_fpath)
+            print('uploading embeddings for: ', embeddings_filename)
             s3.Bucket("deepfakedingoes").upload_file(embeddings_filename, embeddings_filename)
             print("\nSaved output as %s\n\n" % fpath)
 
