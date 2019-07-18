@@ -3,7 +3,7 @@ from synthesizer.inference import Synthesizer
 from vocoder import inference
 import numpy as np
 import os
-import ipdb
+from ipdb import set_trace as st
 
 class CelebrityTextRequestHandler(object):
 
@@ -16,11 +16,11 @@ class CelebrityTextRequestHandler(object):
         inference.load_model(Path(voc_model_fpath))
 
         self.load_all_embeddings(pre_trained_embeddings)
-        ipdb()
+        st()
 
     def load_all_embeddings(self, pre_trained_embeddings):
         files = os.listdir(pre_trained_embeddings)
-        ipdb()
+        st()
         for file_name in files:
             file_name_sanitized = file_name.split()[0]
             embedding = np.load(os.path.join(pre_trained_embeddings, file_name))
