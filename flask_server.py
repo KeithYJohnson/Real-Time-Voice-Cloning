@@ -2,7 +2,6 @@ import flask
 
 from celebrity_text_request_handler.celebrity_text_request_handler import CelebrityTextRequestHandler
 
-
 requestHandler = CelebrityTextRequestHandler()
 app = flask.Flask(__name__)
 
@@ -20,3 +19,6 @@ def convert_text_to_celebrity_speech():
         print(e)
         return "ERROR"
     return 'You sent text: {} celebrity: {}'.format(text, celebrity)
+
+if __name__ == '__main__':
+      app.run(host='0.0.0.0', port=80)
