@@ -19,7 +19,7 @@ class CelebrityTextRequestHandler(object):
     def call_synth_and_vocoder(self, text, celebrity):
         # The synthesizer works in batch, so you need to put your data in a list or numpy array
         texts = [text]
-        embed = get_embedding_from_celebrity(celebrity)
+        embed = self.get_embedding_from_celebrity(celebrity)
         if not embed:
             raise ValueError('Celebrity {} not found in mapping!'.format(celebrity))
         embeds = [embed]
