@@ -23,5 +23,6 @@ ADD Real-Time-Voice-Cloning/requirements.txt /workspace/requirements.txt
 RUN pip install -r /workspace/requirements.txt
 RUN echo "export PATH=/opt/conda/bin:$PATH" >> /root/.profile
 RUN pip install flask --user
+WORKDIR "Real-Time-Voice-Cloning"
 ENTRYPOINT ["sh", "-c", "/usr/sbin/sshd && bash"]
 CMD ["bash"]

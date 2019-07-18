@@ -25,7 +25,7 @@ class CelebrityTextRequestHandler(object):
         embeds = [embed]
         # If you know what the attention layer alignments are, you can retrieve them here by
         # passing return_alignments=True
-        specs = synthesizer.synthesize_spectrograms(texts, embeds)
+        specs = self.synthesizer.synthesize_spectrograms(texts, embeds)
         spec = specs[0]
         print("Created the mel spectrogram")
         
@@ -33,7 +33,7 @@ class CelebrityTextRequestHandler(object):
         print("Synthesizing the waveform:")
         # Synthesizing the waveform is fairly straightforward. Remember that the longer the
         # spectrogram, the more time-efficient the vocoder.
-        return vocoder.infer_waveform(spec)
+        return self.vocoder.infer_waveform(spec)
 
     def upload_to_s3(generated_wav):
         pass
