@@ -4,6 +4,8 @@ from vocoder import inference
 import numpy as np
 import os
 from ipdb import set_trace as st
+import boto3
+import librosa
 
 class CelebrityTextRequestHandler(object):
 
@@ -16,6 +18,7 @@ class CelebrityTextRequestHandler(object):
         inference.load_model(Path(voc_model_fpath))
 
         self.load_all_embeddings(pre_trained_embeddings)
+        self.s3 = boto3.resource('s3')
 
     def load_all_embeddings(self, pre_trained_embeddings):
         files = os.listdir(pre_trained_embeddings)
@@ -46,10 +49,32 @@ class CelebrityTextRequestHandler(object):
         # spectrogram, the more time-efficient the vocoder.
         return inference.infer_waveform(spec)
 
-    def upload_to_s3(generated_wav):
-        pass
+    def upload_to_s3(self, mp3_name):
+        print("Writing file file to S3, path {}".format(mp3_name))
+        self.s3.Bucket("deepfakedingoes").upload_file(mp3_name,mp3_name, ExtraArgs={'ACL':'public-read'})
+        return "https://s3.amazonaws.com/{}/{}".format("deepfakedingoes", mp3_name)
+
+    def create_mp3_on_disk(self, generated_wav):
+        uuid_name = str(uuid.uuid4())
+        mp3_name = '{}.mp3'.format(uuid_name)
+        wav_name = '{}.wav'.format(uuid_name)
+
+        #normalize
+        normalize_command = ['normalize_exec/normalize', '-a', '0', '--peak', wav_name]        
+        subprocess.check_call(normalize_command)
+
+        #make mp3 file
+        print("Making mp3 file {}".format(mp3_name))
+        lame_command = ['lame_exec/lame', '-V', '8', wav_name, mp3_name, '-q', '7', '--nohist', '-b', '16', '-B', '384']
+        subprocess.check_call(lame_command)
+
+        librosa.output.write_wav(wav_filename, generated_wav.astype(np.float32), self.synthesizer.sample_rate)
+
+
 
     def handle(self, text, celebrity):
         print("handle text: \"{}\", celebrity: \"{}\"".format(text, celebrity))
         generated_wav = self.call_synth_and_vocoder(text, celebrity)
-        self.upload_to_s3(generated_wav)
+        mp3_file_name = self.create_mp3_on_disk(generated_wav)
+
+        return self.upload_to_s3(mp3_file_name)

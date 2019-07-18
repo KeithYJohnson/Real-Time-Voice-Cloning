@@ -14,11 +14,11 @@ def convert_text_to_celebrity_speech():
     text = flask.request.args.get('text')
     celebrity = flask.request.args.get('celebrity')
     try:
-        requestHandler.handle(text, celebrity)
+        response = requestHandler.handle(text, celebrity)
     except ValueError as e:
         print(e)
         return "ERROR"
-    return 'You sent text: {} celebrity: {}'.format(text, celebrity)
+    return response
 
 if __name__ == '__main__':
       app.run(host='0.0.0.0', port=80)
