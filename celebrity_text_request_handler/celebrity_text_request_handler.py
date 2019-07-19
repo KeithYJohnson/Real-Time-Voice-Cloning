@@ -7,6 +7,7 @@ from ipdb import set_trace as st
 import boto3
 import librosa
 import uuid
+import subprocess
 
 class CelebrityTextRequestHandler(object):
 
