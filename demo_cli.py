@@ -13,6 +13,7 @@ import sys
 from tempfile import TemporaryFile
 import numpy as np
 import boto3
+from uuid
 
 
 if __name__ == '__main__':
@@ -175,13 +176,13 @@ if __name__ == '__main__':
             print(generated_wav.dtype)
             librosa.output.write_wav(fpath, generated_wav.astype(np.float32),
                                      synthesizer.sample_rate)
-            outfile = TemporaryFile()
             embeddings_filename = str(in_fpath) + "_embeddings.npy"
+            wavfile_name = str(in_fpath) + "_example_synthesized_voice.wav"
             np.save(embeddings_filename, embed)
             num_generated += 1
             s3 = boto3.resource('s3')
             print('uploading uploading synthezized wave file for: ', fpath)
-            s3.Bucket("deepfakedingoes").upload_file(fpath,fpath)
+            s3.Bucket("deepfakedingoes").upload_file(fpath,wavfile_name)
             print('uploading embeddings for: ', embeddings_filename)
             s3.Bucket("deepfakedingoes").upload_file(embeddings_filename, embeddings_filename)
             print("\nSaved output as %s\n\n" % fpath)
@@ -190,3 +191,18 @@ if __name__ == '__main__':
         except Exception as e:
             print("Caught exception: %s" % repr(e))
             print("Restarting\n")
+
+    def generate_wav(text, embeddings):
+        specs = synthesizer.synthesize_spectrograms(texts, embeds)
+        spec = specs[0]
+        generated_wav = vocoder.infer_waveform(spec)
+        generated_wav = np.pad(generated_wav, (0, synthesizer.sample_rate), mode="constant")
+        # Save it on the disk
+        fpath = "demo_output_%02d.wav" % num_generated
+        print(generated_wav.dtype)
+        librosa.output.write_wav(fpath, generated_wav.astype(np.float32),
+                                 synthesizer.sample_rate)
+        num_generated += 1
+        s3 = boto3.resource('s3')
+        print('uploading uploading synthezized wave file for: ', fpath)
+        s3.Bucket("deepfakedingoes").upload_file(fpath,fpath + str(uuid.uuid4()))
