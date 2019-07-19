@@ -62,11 +62,11 @@ class CelebrityTextRequestHandler(object):
         mp3_name = '{}.mp3'.format(uuid_name)
         wav_name = '{}.wav'.format(uuid_name)
 
-        librosa.output.write_wav(wav_name, generated_wav.astype(np.float32), self.synthesizer.sample_rate)
+        librosa.output.write_wav(wav_name, generated_wav.astype(np.float32), self.synthesizer.sample_rate, norm=true)
 
         #normalize
-        normalize_command = ['normalize_exec/normalize', '-a', '0', '--peak', wav_name]        
-        subprocess.check_call(normalize_command)
+        #normalize_command = ['normalize_exec/normalize', '-a', '0', '--peak', wav_name]        
+        #subprocess.check_call(normalize_command)
 
         #make mp3 file
         print("Making mp3 file {}".format(mp3_name))
