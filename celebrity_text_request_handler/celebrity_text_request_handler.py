@@ -6,6 +6,7 @@ import os
 from ipdb import set_trace as st
 import boto3
 import librosa
+import uuid
 
 class CelebrityTextRequestHandler(object):
 
@@ -59,6 +60,8 @@ class CelebrityTextRequestHandler(object):
         mp3_name = '{}.mp3'.format(uuid_name)
         wav_name = '{}.wav'.format(uuid_name)
 
+        librosa.output.write_wav(wav_name, generated_wav.astype(np.float32), self.synthesizer.sample_rate)
+
         #normalize
         normalize_command = ['normalize_exec/normalize', '-a', '0', '--peak', wav_name]        
         subprocess.check_call(normalize_command)
@@ -68,8 +71,7 @@ class CelebrityTextRequestHandler(object):
         lame_command = ['lame_exec/lame', '-V', '8', wav_name, mp3_name, '-q', '7', '--nohist', '-b', '16', '-B', '384']
         subprocess.check_call(lame_command)
 
-        librosa.output.write_wav(wav_filename, generated_wav.astype(np.float32), self.synthesizer.sample_rate)
-
+        return mp3_name
 
 
     def handle(self, text, celebrity):
