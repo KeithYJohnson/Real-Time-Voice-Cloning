@@ -25,12 +25,12 @@ class CelebrityTextRequestHandler(object):
     def load_all_embeddings(self, pre_trained_embeddings):
         files = os.listdir(pre_trained_embeddings)
         for file_name in files:
-            file_name_sanitized = file_name.split(".")[0]
+            file_name_sanitized = file_name.split(".")[0].lower()
             embedding = np.load(os.path.join(pre_trained_embeddings, file_name))
             self.celebrity_map[file_name_sanitized] = embedding
 
     def get_embedding_from_celebrity(self, celebrity):
-        return self.celebrity_map.get(celebrity, None)
+        return self.celebrity_map.get(celebrity.lower(), None)
 
     def call_synth_and_vocoder(self, text, celebrity):
         # The synthesizer works in batch, so you need to put your data in a list or numpy array
