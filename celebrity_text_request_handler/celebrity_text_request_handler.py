@@ -55,7 +55,9 @@ class CelebrityTextRequestHandler(object):
         print("Writing file file to S3, path {}".format(mp3_name))
         bucket = "deepfakedingoes2"
         self.s3.Bucket(bucket).upload_file(mp3_name, mp3_name, ExtraArgs={'ACL':'public-read'})
-        return "https://s3.amazonaws.com/{}/{}".format(bucket, mp3_name)
+        s3_address = "https://s3.amazonaws.com/{}/{}".format(bucket, mp3_name)
+        print("s3_address: {}".format(s3_address))
+        return s3_address
 
     def create_mp3_on_disk(self, generated_wav):
         uuid_name = str(uuid.uuid4())
