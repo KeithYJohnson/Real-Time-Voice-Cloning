@@ -13,7 +13,6 @@ import sys
 from tempfile import TemporaryFile
 import numpy as np
 import boto3
-from uuid
 
 
 if __name__ == '__main__':
@@ -192,17 +191,3 @@ if __name__ == '__main__':
             print("Caught exception: %s" % repr(e))
             print("Restarting\n")
 
-    def generate_wav(text, embeddings):
-        specs = synthesizer.synthesize_spectrograms(texts, embeds)
-        spec = specs[0]
-        generated_wav = vocoder.infer_waveform(spec)
-        generated_wav = np.pad(generated_wav, (0, synthesizer.sample_rate), mode="constant")
-        # Save it on the disk
-        fpath = "demo_output_%02d.wav" % num_generated
-        print(generated_wav.dtype)
-        librosa.output.write_wav(fpath, generated_wav.astype(np.float32),
-                                 synthesizer.sample_rate)
-        num_generated += 1
-        s3 = boto3.resource('s3')
-        print('uploading uploading synthezized wave file for: ', fpath)
-        s3.Bucket("deepfakedingoes").upload_file(fpath,fpath + str(uuid.uuid4()))
