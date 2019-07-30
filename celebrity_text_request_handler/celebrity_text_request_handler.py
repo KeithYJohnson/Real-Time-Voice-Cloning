@@ -54,7 +54,7 @@ class CelebrityTextRequestHandler(object):
 
     def upload_to_s3(self, mp3_name):
         print("Writing file file to S3, path {}".format(mp3_name))
-        bucket = "deepfakedingoes2"
+        bucket = "deepfakedingoes"
         self.s3.Bucket(bucket).upload_file(mp3_name, mp3_name, ExtraArgs={'ACL':'public-read'})
         s3_address = "https://s3.amazonaws.com/{}/{}".format(bucket, mp3_name)
         print("s3_address: {}".format(s3_address))
